@@ -22,4 +22,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => 'is_admin',
+        'as' => 'admin.',
+    ], function () {
+        Route::get( 'stays', function () {
+            return view ('adminka');
+        }
+        );
+    });
+});
 
