@@ -14,7 +14,9 @@ class StayController extends Controller
      */
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+        $stays = Stay::where('user_id', '=', $id)->paginate(10);
+        dd($stays);
     }
 
     /**
@@ -24,7 +26,7 @@ class StayController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.stays.create');
     }
 
     /**
@@ -35,7 +37,11 @@ class StayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $input['user_id']=auth()->user()->id;
+
+        Stay::create($input);
+        return redirect(route('stays.index'))->with('success', 'all data stored');
     }
 
     /**
@@ -46,7 +52,7 @@ class StayController extends Controller
      */
     public function show(Stay $stay)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -57,7 +63,7 @@ class StayController extends Controller
      */
     public function edit(Stay $stay)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -69,7 +75,7 @@ class StayController extends Controller
      */
     public function update(Request $request, Stay $stay)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -80,6 +86,6 @@ class StayController extends Controller
      */
     public function destroy(Stay $stay)
     {
-        //
+        dd(__METHOD__);
     }
 }

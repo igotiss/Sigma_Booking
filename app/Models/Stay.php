@@ -15,6 +15,8 @@ class Stay extends Model
         'type',
         'location',
         'price',
+        'user_id',
+
     ];
 
     /**

@@ -34,18 +34,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-/*Route::group(['middleware' => 'auth'], function () {
-    Route::group([
-        'middleware' => 'is_admin',
-    ], function () {
-        Route::get( 'administrator', function () {
-            return view ('admin-panel');
-        }
-        );
-    });
-});*/
-
-
 
 
 
