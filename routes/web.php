@@ -14,24 +14,38 @@ require __DIR__.'/auth.php';
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::get('/', [\App\Http\Controllers\Controller::class, 'main'])->name('main');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::middleware(['middleware' => 'is_admin'])
+        ->name('admin.')
+        ->group(function () {
+        include base_path("routes/group/admin.php");
+    });
+
+    Route::middleware(['auth'])->group(function (){
+        include base_path("routes/group/user.php");
+    });
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
-Route::group(['middleware' => 'auth'], function () {
+
+/*Route::group(['middleware' => 'auth'], function () {
     Route::group([
-        'prefix' => 'admin',
         'middleware' => 'is_admin',
-        'as' => 'admin.',
     ], function () {
-        Route::get( 'stays', function () {
-            return view ('adminka');
+        Route::get( 'administrator', function () {
+            return view ('admin-panel');
         }
         );
     });
-});
+});*/
+
+
+
+
 

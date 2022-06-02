@@ -43,8 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return bool
+     */
     public function isAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function stays() {
+        return $this->hasMany(Stay::class);
     }
 }

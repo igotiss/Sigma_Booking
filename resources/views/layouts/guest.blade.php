@@ -17,8 +17,16 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+        <div id="app">
+            @include('components.header-navigation')
+            <div class="container">
+                <x-errors-success/>
+                <main class="py-4">
+                    <div class="font-sans text-gray-900 antialiased">
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
         </div>
     </body>
 </html>
