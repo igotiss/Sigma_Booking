@@ -39,7 +39,6 @@ class StayController extends Controller
     {
         $input = $request->all();
         $input['user_id']=auth()->user()->id;
-
         Stay::create($input);
         return redirect(route('stays.index'))->with('success', 'all data stored');
     }
