@@ -1,10 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Stay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StayRequest;
+
+use App\Http\Resources\StayResource;
+
+
+
 
 class StayController extends Controller
 {
@@ -15,22 +22,9 @@ class StayController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
-        $stays = Stay::where('user_id',  $id)->paginate(10);
-        return view('pages.Users.index', compact('stays'));
 
-        //dd($stays);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        dd(Auth::user());
-        return view('pages.stays.create');
+        //dd(auth()->id());
+        return StayResource::collection(Stay::where('user_id',  \auth()->id())->paginate(10)); //where('status', 'active')->paginate(10)
     }
 
     /**
@@ -39,12 +33,11 @@ class StayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StayRequest $request)
     {
-        $input = $request->all();
-        $input['user_id']=auth()->user()->id;
-        Stay::create($input);
-        return redirect(route('stays.index'))->with('success', 'all data stored');
+        $stay = Stay::create($request->validated());
+
+        return new StayResource($stay);
     }
 
     /**
@@ -55,18 +48,7 @@ class StayController extends Controller
      */
     public function show(Stay $stay)
     {
-        dd(__METHOD__);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Stay  $stay
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Stay $stay)
-    {
-        dd(__METHOD__);
+        return new StayResource($stay);
     }
 
     /**
@@ -76,9 +58,11 @@ class StayController extends Controller
      * @param  \App\Models\Stay  $stay
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stay $stay)
+    public function update(StayRequest $request, Stay $stay)
     {
-        dd(__METHOD__);
+        $stay->update($request->validated());
+
+        return new StayResource($stay);
     }
 
     /**
@@ -89,6 +73,8 @@ class StayController extends Controller
      */
     public function destroy(Stay $stay)
     {
-        dd(__METHOD__);
+        $stay->delete();
+
+        return response()->noContent();
     }
 }

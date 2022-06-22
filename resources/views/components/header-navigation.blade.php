@@ -32,6 +32,7 @@
                             </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item " href="#">Керувати аккаунтом</a>
+                            <a class="dropdown-item " href="{{route('stays.index')}}">Мої оголошення</a>
                             <a class="dropdown-item" href="#">Бронювання</a>
                             <a class="dropdown-item" href="#">Програма лояльності</a>
                             <a class="dropdown-item" href="#">Гаманець</a>

@@ -14,7 +14,17 @@
                     <p class="card-text me-2"><small class="text-muted">Локація: <span class="stay-location">{{ stay.location }}</span></small></p>
                     <p class="card-text">{{stay.description}}</p>
                     <h5 class="card-text stay-price">Ціна: <strong> {{stay.price}} грн.</strong></h5>
-                    <button class="btn btn-primary mt-3">Забронювати</button>
+
+                    <div class="input-group mb-3" v-if="auth">
+                        <button @click="editStay"
+                                class="btn btn-outline-primary">
+                            Редагувати
+                        </button>
+                        <button class="btn btn-outline-danger"
+                                @click="deleteStay"
+                        >Видалити</button>
+                    </div>
+                    <button v-else class="btn btn-primary mt-3">Забронювати</button>
                 </div>
             </div>
         </div>
@@ -25,9 +35,24 @@
 export default {
     name: "StayCard",
     props: {
-        stay: Object
+        stay: Object,
+        auth: Boolean,
+        editUrl: String,
+        deleteUrl: String,
+    },
+    data() {
+        return {
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
     },
     methods: {
+        editStay () {
+            window.location.href = this.editUrl;
+        },
+        deleteStay() {
+            //console.log(this.deleteUrl);
+            window.location.href = this.deleteUrl;
+        }
 
     },
     computed: {

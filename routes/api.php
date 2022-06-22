@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/auth.php';
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Public routes
+Route::get('stays', [\App\Http\Controllers\Api\StayController::class, 'index']);
+
+// Protected routes
+Route::group(['middleware' => ['auth:sanctum']], function() {
+   // Route::apiResource('stays', \App\Http\Controllers\Api\StayController::class);
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::apiResource('stays', \App\Http\Controllers\Api\StayController::class);
+
 });
